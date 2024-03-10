@@ -1,0 +1,20 @@
+{
+  "alert.tomeofblood.no_lp": "Вы ощущаете в душе слабость...",
+  "ars_nouveau.school.bloodmagic": "Магия крови",
+  "effect.tomeofblood.serene": "Спокойствие",
+  "effect.tomeofblood.vulnerable": "Лёгкоранимый",
+  "item.tomeofblood.apprentice_tome_of_blood": "Фолиант крови Подмастерья",
+  "item.tomeofblood.archmage_tome_of_blood": "Фолиант крови Архимага",
+  "item.tomeofblood.living_mage_boots": "Ботинки еретика",
+  "item.tomeofblood.living_mage_hood": "Капюшон еретика",
+  "item.tomeofblood.living_mage_leggings": "Поножи еретика",
+  "item.tomeofblood.living_mage_robes": "Роба еретика",
+  "item.tomeofblood.mint_tea": "Мятный чай",
+  "item.tomeofblood.novice_tome_of_blood": "Фолиант крови Новичка",
+  "itemGroup.tomeofblood.tome_of_blood": "Фолиант крови",
+  "living_upgrade.tomeofblood.mana_bonus": "Сонастроенность маны",
+  "tomeofblood.glyph_desc.glyph_sentient_harm": "Расходует Волю демона и атакует свою цель (определяет урон в зависимости от воли в инвентаре). Цель сбрасывает Чистую волю после убийства. $(br2)Отсрочка времени накладывает эффект от зелья в зависимости от типа Воли. $(br2)Чистая - отравление $(br)Разрушительная - иссушение $(br)Мстительная - слабость $(br)Прочная - замедление $(br)Губительная - лёгкоранимый",
+  "tomeofblood.glyph_desc.glyph_sentient_wrath": "Отмечает цель для первого поражения. Атака отмеченной цели наносит масштабируемую сильную атаку в пределах радиуса и Отмечает все цели. Расходует волю. $(br2)Даёт игроку бонусы после убийства, когда не используется Чистая воля.$(br2)Разрушительная - сопротивление $(br)Мстительная - скорость $(br)Прочная - поглощение$(br)Губительная - сила заклинания",
+  "tomeofblood.glyph_name.glyph_sentient_harm": "Вред сознанию",
+  "tomeofblood.glyph_name.glyph_sentient_wrath": "Гнев сознанию"
+}
