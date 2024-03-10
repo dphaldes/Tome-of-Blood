@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.4] - 2024-03-10
+
+### Fixed
+
+- Unlock Registrate version range
+
 ## [0.4.3] - 2023-11-25
 
 ### Fixed
