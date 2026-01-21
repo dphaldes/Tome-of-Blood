@@ -48,7 +48,7 @@ jobs:
           name: Tome of Blood ${{ env.MC_VERSION }}-${{ steps.tag_name.outputs.current_version }}
           body: ${{ steps.changelog_reader.outputs.changes }}
           tag: ${{ github.ref }}
-          artifacts: ./build/libs/tomeofblood-${{ env.MC_VERSION }}-${{ steps.tag_name.outputs.current_version }}-all.jar
+          artifacts: ./build/libs/tomeofblood-${{ env.MC_VERSION }}-${{ steps.tag_name.outputs.current_version }}.jar
           artifactContentType: application/java-archive
       - name: Upload to Mod Platforms
         uses: Kir-Antipov/mc-publish@v3.3
@@ -59,7 +59,7 @@ jobs:
           curseforge-token: ${{ secrets.CURSEFORGE_API_KEY }}
 
           files: |
-            build/libs/tomeofblood-${{ env.MC_VERSION }}-${{ steps.tag_name.outputs.current_version }}-all.jar
+            build/libs/tomeofblood-${{ env.MC_VERSION }}-${{ steps.tag_name.outputs.current_version }}.jar
 
           name: Tome of Blood ${{ env.MC_VERSION }}-${{ steps.tag_name.outputs.current_version }}
           version: ${{ env.MC_VERSION }}-${{ steps.tag_name.outputs.current_version }}
