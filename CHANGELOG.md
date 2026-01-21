@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.5] - 2026-01-20
+
+### Fixed
+
+- Make Heretic Armor upgradeable again.
+- Bump minimum bloodmagic version
+
 ## [0.4.4] - 2024-03-10
 
 ### Fixed

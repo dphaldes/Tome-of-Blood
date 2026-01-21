@@ -86,6 +86,11 @@ public class LivingMageArmorItem extends AnimatedMagicArmor implements ILivingCo
     }
 
     @Override
+    public boolean canLivingEvolve() {
+        return true;
+    }
+
+    @Override
     public boolean canElytraFly(ItemStack stack, LivingEntity entity) {
         return hasElytraUpgrade(stack, entity) && stack.getDamageValue() < stack.getMaxDamage() - 1;
     }
