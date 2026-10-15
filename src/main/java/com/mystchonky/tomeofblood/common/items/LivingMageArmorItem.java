@@ -5,20 +5,21 @@ import com.breakinblocks.neovitae.common.item.NVItems;
 import com.breakinblocks.neovitae.common.item.NVMaterialsAndTiers;
 import com.breakinblocks.neovitae.common.item.UpgradeHolderBase;
 import com.breakinblocks.neovitae.common.tag.NVTags;
-import com.hollingsworth.arsnouveau.api.perk.ArmorPerkHolder;
-import com.hollingsworth.arsnouveau.api.perk.IPerkHolder;
-import com.hollingsworth.arsnouveau.api.util.PerkUtil;
 import com.hollingsworth.arsnouveau.client.renderer.tile.GenericModel;
 import com.hollingsworth.arsnouveau.common.armor.AnimatedMagicArmor;
+import com.hollingsworth.arsnouveau.common.items.data.ArmorPerkHolder;
+import com.hollingsworth.arsnouveau.setup.registry.DataComponentRegistry;
 import com.mystchonky.tomeofblood.TomeOfBlood;
 import com.mystchonky.tomeofblood.client.renderer.ToBGenericModel;
 import com.mystchonky.tomeofblood.client.renderer.item.LivingMageArmorRenderer;
 import com.mystchonky.tomeofblood.common.registry.ItemRegistry;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
@@ -34,7 +35,9 @@ public class LivingMageArmorItem extends AnimatedMagicArmor implements UpgradeHo
     }
 
     private static Properties properties(Type slot) {
-        Properties properties = new Properties().stacksTo(1).durability(slot.getDurability(33));
+        Properties properties = new Properties().stacksTo(1).durability(slot.getDurability(33))
+                .component(DataComponentRegistry.ARMOR_PERKS, new ArmorPerkHolder())
+                .component(DataComponents.BASE_COLOR, DyeColor.RED);
         if (slot == Type.CHESTPLATE) {
             properties.component(NVDataComponents.REQUIRED_SET, NVTags.Items.SENTIENT_SET)
                     .component(NVDataComponents.CURRENT_UPGRADE_POINTS, 0);
@@ -58,11 +61,7 @@ public class LivingMageArmorItem extends AnimatedMagicArmor implements UpgradeHo
 
     @Override
     public String getColor(ItemStack object) {
-        IPerkHolder<ItemStack> perkHolder = PerkUtil.getPerkHolder(object);
-        if (!(perkHolder instanceof ArmorPerkHolder data)) {
-            return "red";
-        }
-        return data.getColor() == null || data.getColor().isEmpty() ? "red" : data.getColor();
+        return object.getOrDefault(DataComponents.BASE_COLOR, DyeColor.RED).getName();
     }
 
     @Override

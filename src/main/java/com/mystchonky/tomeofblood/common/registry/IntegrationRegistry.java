@@ -1,7 +1,6 @@
 package com.mystchonky.tomeofblood.common.registry;
 
 import com.hollingsworth.arsnouveau.api.familiar.AbstractFamiliarHolder;
-import com.hollingsworth.arsnouveau.api.perk.ArmorPerkHolder;
 import com.hollingsworth.arsnouveau.api.perk.PerkSlot;
 import com.hollingsworth.arsnouveau.api.registry.FamiliarRegistry;
 import com.hollingsworth.arsnouveau.api.registry.GlyphRegistry;
@@ -53,26 +52,26 @@ public class IntegrationRegistry {
     }
 
     public static void registerPerkProviders() {
-        PerkRegistry.registerPerkProvider(ItemRegistry.LIVING_MAGE_HOOD.get(), stack -> new ArmorPerkHolder(stack, List.of(
+        PerkRegistry.registerPerkProvider(ItemRegistry.LIVING_MAGE_HOOD.get(), List.of(
                 List.of(PerkSlot.ONE),
                 List.of(PerkSlot.ONE, PerkSlot.TWO),
                 List.of(PerkSlot.ONE, PerkSlot.THREE)
-        )));
-        PerkRegistry.registerPerkProvider(ItemRegistry.LIVING_MAGE_ROBES.get(), stack -> new ArmorPerkHolder(stack, List.of(
+        ));
+        PerkRegistry.registerPerkProvider(ItemRegistry.LIVING_MAGE_ROBES.get(), List.of(
                 List.of(),
                 List.of(),
                 List.of()
-        )));
-        PerkRegistry.registerPerkProvider(ItemRegistry.LIVING_MAGE_LEGGINGS.get(), stack -> new ArmorPerkHolder(stack, List.of(
+        ));
+        PerkRegistry.registerPerkProvider(ItemRegistry.LIVING_MAGE_LEGGINGS.get(), List.of(
                 List.of(PerkSlot.ONE),
                 List.of(PerkSlot.ONE, PerkSlot.TWO),
                 List.of(PerkSlot.ONE, PerkSlot.ONE, PerkSlot.THREE)
-        )));
-        PerkRegistry.registerPerkProvider(ItemRegistry.LIVING_MAGE_BOOTS.get(), stack -> new ArmorPerkHolder(stack, List.of(
+        ));
+        PerkRegistry.registerPerkProvider(ItemRegistry.LIVING_MAGE_BOOTS.get(), List.of(
                 List.of(PerkSlot.ONE),
                 List.of(PerkSlot.ONE, PerkSlot.ONE),
                 List.of(PerkSlot.ONE, PerkSlot.ONE, PerkSlot.TWO)
-        )));
+        ));
     }
 
 }
