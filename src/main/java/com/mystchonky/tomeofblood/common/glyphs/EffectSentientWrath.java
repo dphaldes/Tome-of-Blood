@@ -34,7 +34,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -67,8 +67,8 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
 
         List<LivingEntity> targets = new ArrayList<>();
 
-        if (!target.hasEffect(MobEffectRegistry.MARKED.get())) {
-            target.addEffect(new MobEffectInstance(MobEffectRegistry.MARKED.get(), 20 * duration, 1));
+        if (!target.hasEffect(MobEffectRegistry.MARKED)) {
+            target.addEffect(new MobEffectInstance(MobEffectRegistry.MARKED, 20 * duration, 1));
             attemptDamage(level, shooter, spellStats, spellContext, resolver, target, buildDamageSource(level, shooter), baseDamage);
             targets.add(target);
         } else {
@@ -101,7 +101,7 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
         if (attemptDamage(level, shooter, stats, context, resolver, target, buildDamageSource(level, shooter), damage)) {
             level.sendParticles(ParticleRegistry.WRATH_SLASH.get(), vec.x, vec.y + 0.5, vec.z, 1,
                     ParticleUtil.inRange(-0.1, 0.1), ParticleUtil.inRange(-0.1, 0.1), ParticleUtil.inRange(-0.1, 0.1), 0.3);
-            target.addEffect(new MobEffectInstance(MobEffectRegistry.MARKED.get(), 20 * duration));
+            target.addEffect(new MobEffectInstance(MobEffectRegistry.MARKED, 20 * duration));
         }
 
     }
@@ -113,7 +113,7 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
             case RUINA -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration * 20);
             case VINDICTA -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, duration * 20);
             case INVICTUS -> new MobEffectInstance(MobEffects.ABSORPTION, duration * 20, 127);
-            case NIHILUM -> new MobEffectInstance(ModPotions.SPELL_DAMAGE_EFFECT.get(), duration * 20);
+            case NIHILUM -> new MobEffectInstance(ModPotions.SPELL_DAMAGE_EFFECT, duration * 20);
             default -> throw new IllegalStateException("Unexpected value: " + type);
         };
 
@@ -125,7 +125,7 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
     }
 
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ModConfigSpec.Builder builder) {
         super.buildConfig(builder);
         addDamageConfig(builder, 3.0);
         addAmpConfig(builder, 2.0);

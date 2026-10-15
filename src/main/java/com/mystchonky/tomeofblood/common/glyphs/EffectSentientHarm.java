@@ -21,6 +21,7 @@ import com.mystchonky.tomeofblood.TomeOfBlood;
 import com.mystchonky.tomeofblood.common.registry.IntegrationRegistry;
 import com.mystchonky.tomeofblood.common.registry.MobEffectRegistry;
 import com.mystchonky.tomeofblood.common.util.DemonWillUtil;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -29,7 +30,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -68,18 +69,18 @@ public class EffectSentientHarm extends AbstractEffect implements IDamageEffect,
 
     }
 
-    public MobEffect getEffectType(SpiritusType type) {
+    public Holder<MobEffect> getEffectType(SpiritusType type) {
         return switch (type) {
             case RAW -> MobEffects.POISON;
             case RUINA -> MobEffects.WITHER;
             case VINDICTA -> MobEffects.WEAKNESS;
             case INVICTUS -> MobEffects.MOVEMENT_SLOWDOWN;
-            case NIHILUM -> MobEffectRegistry.VULNERABLE.get();
+            case NIHILUM -> MobEffectRegistry.VULNERABLE;
         };
     }
 
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ModConfigSpec.Builder builder) {
         super.buildConfig(builder);
         addDamageConfig(builder, 4.0);
         addAmpConfig(builder, 2.0);
