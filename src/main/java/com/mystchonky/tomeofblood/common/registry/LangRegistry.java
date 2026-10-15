@@ -9,5 +9,5 @@ public class LangRegistry {
     public static final Component LOW_LP = Component.translatable(TomeOfBlood.prefix("no_lp").toLanguageKey("alert"));
     public static final Component SERENE_EFFECT = Component.translatable(TomeOfBlood.prefix("serene").toLanguageKey("effect"));
     public static final Component VULNERABLE_EFFECT = Component.translatable(TomeOfBlood.prefix("vulnerable").toLanguageKey("effect"));
-    public static final Component MANA_BONUS_UPGRADE = Component.translatable(TomeOfBlood.prefix("mana_bonus").toLanguageKey("living_upgrade"));
+    public static final Component MANA_BONUS_UPGRADE = Component.translatable(TomeOfBlood.prefix("mana_bonus").toLanguageKey("sentient_upgrade"));
 }

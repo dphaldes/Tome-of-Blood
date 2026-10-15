@@ -7,7 +7,6 @@ import com.mystchonky.tomeofblood.client.registry.ParticleRegistry;
 import com.mystchonky.tomeofblood.common.config.BaseConfig;
 import com.mystchonky.tomeofblood.common.registry.IntegrationRegistry;
 import com.mystchonky.tomeofblood.common.registry.ItemRegistry;
-import com.mystchonky.tomeofblood.common.registry.LivingUpgradeRegistry;
 import com.mystchonky.tomeofblood.common.registry.MobEffectRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
@@ -48,7 +47,6 @@ public class TomeOfBlood {
         container.registerConfig(ModConfig.Type.CLIENT, BaseConfig.CLIENT_SPEC, MODID + "/base-client.toml");
 
         ItemRegistry.register(modbus);
-        LivingUpgradeRegistry.register();
         MobEffectRegistry.register(modbus);
         ParticleRegistry.register(modbus);
         IntegrationRegistry.init();

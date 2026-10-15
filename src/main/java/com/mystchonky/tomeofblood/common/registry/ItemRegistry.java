@@ -1,5 +1,7 @@
 package com.mystchonky.tomeofblood.common.registry;
 
+import com.breakinblocks.neovitae.common.creativetab.NVTabs;
+import com.breakinblocks.neovitae.common.sentient.SentientHelper;
 import com.hollingsworth.arsnouveau.api.spell.SpellTier;
 import com.mystchonky.tomeofblood.TomeOfBlood;
 import com.mystchonky.tomeofblood.common.items.LivingMageArmorItem;
@@ -15,8 +17,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import wayoftime.bloodmagic.common.registries.BloodMagicCreativeTabs;
-import wayoftime.bloodmagic.core.living.LivingStats;
 
 public class ItemRegistry {
     private static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(TomeOfBlood.MODID);
@@ -36,7 +36,7 @@ public class ItemRegistry {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register("tome_of_blood", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.tomeofblood.tome_of_blood"))
             .icon(() -> ItemRegistry.ARCHMAGE_TOME.get().getDefaultInstance())
-            .withTabsBefore(BloodMagicCreativeTabs.BLOODMAGIC_UPGRADES.getKey())
+            .withTabsBefore(NVTabs.TRAINERS.unwrapKey().orElseThrow())
             .displayItems((params, output) -> {
                 output.accept(NOVICE_TOME.get());
                 output.accept(APPRENTICE_TOME.get());
@@ -45,7 +45,7 @@ public class ItemRegistry {
                 output.accept(LIVING_MAGE_HOOD.get());
                 var armor = LIVING_MAGE_ROBES.get();
                 ItemStack stack = armor.getDefaultInstance();
-                armor.updateLivingStats(stack, new LivingStats());
+                SentientHelper.setDefaultSentient(stack, params.holders());
                 output.accept(stack);
                 output.accept(LIVING_MAGE_LEGGINGS.get());
                 output.accept(LIVING_MAGE_BOOTS.get());
