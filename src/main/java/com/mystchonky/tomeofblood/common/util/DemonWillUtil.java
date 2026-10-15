@@ -1,45 +1,46 @@
 package com.mystchonky.tomeofblood.common.util;
 
+import com.breakinblocks.neovitae.common.datacomponent.SpiritusType;
+import com.breakinblocks.neovitae.common.item.SpiritusGemItem;
+import com.breakinblocks.neovitae.common.item.soul.SentientToolHelper;
+import com.breakinblocks.neovitae.spiritus.SpiritusHelper;
 import com.hollingsworth.arsnouveau.api.item.inv.InteractType;
 import com.hollingsworth.arsnouveau.api.item.inv.InventoryManager;
 import com.hollingsworth.arsnouveau.api.item.inv.SlotReference;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
 import net.minecraft.world.item.ItemStack;
-import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
-import wayoftime.bloodmagic.common.item.soul.ItemSentientSword;
-import wayoftime.bloodmagic.common.item.soul.ItemSoulGem;
 
 public class DemonWillUtil {
 
-    public static EnumDemonWillType getActiveTypeFromPlayer(SpellContext context) {
+    public static SpiritusType getActiveTypeFromPlayer(SpellContext context) {
         InventoryManager manager = new InventoryManager(context.getCaster());
-        SlotReference reference = manager.findItem(it -> it.getItem() instanceof ItemSoulGem, InteractType.EXTRACT);
+        SlotReference reference = manager.findItem(it -> it.getItem() instanceof SpiritusGemItem, InteractType.EXTRACT);
         if (!reference.isEmpty()) {
             ItemStack stack = reference.getHandler().getStackInSlot(reference.getSlot());
-            return ((ItemSoulGem) stack.getItem()).getCurrentType(stack);
+            return SpiritusHelper.getCurrentType(stack);
         }
-        return EnumDemonWillType.DEFAULT;
+        return SpiritusType.RAW;
     }
 
-    public static int getBracket(EnumDemonWillType type, int souls) {
+    public static int getBracket(SpiritusType type, int souls) {
         int bracket = -1;
-        for (int i = 0; i < ItemSentientSword.soulBracket.length; i++) {
-            if (souls >= ItemSentientSword.soulBracket[i]) {
+        for (int i = 0; i < SentientToolHelper.SOUL_BRACKET.length; i++) {
+            if (souls >= SentientToolHelper.SOUL_BRACKET[i]) {
                 bracket = i;
             }
         }
         return bracket;
     }
 
-    public static float getExtraDamage(EnumDemonWillType type, int bracket) {
+    public static float getExtraDamage(SpiritusType type, int bracket) {
         if (bracket < 0) {
             return 0;
         }
         return switch (type) {
-            case CORROSIVE, DEFAULT -> (float) ItemSentientSword.defaultDamageAdded[bracket];
-            case DESTRUCTIVE -> (float) ItemSentientSword.destructiveDamageAdded[bracket];
-            case VENGEFUL -> (float) ItemSentientSword.vengefulDamageAdded[bracket];
-            case STEADFAST -> (float) ItemSentientSword.steadfastDamageAdded[bracket];
+            case RUINA, RAW -> (float) SentientToolHelper.WEAPON_DEFAULT_DAMAGE[bracket];
+            case NIHILUM -> (float) SentientToolHelper.WEAPON_DESTRUCTIVE_DAMAGE[bracket];
+            case VINDICTA -> (float) SentientToolHelper.WEAPON_VENGEFUL_DAMAGE[bracket];
+            case INVICTUS -> (float) SentientToolHelper.WEAPON_STEADFAST_DAMAGE[bracket];
         };
     }
 }

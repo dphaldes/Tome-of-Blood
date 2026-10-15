@@ -1,5 +1,8 @@
 package com.mystchonky.tomeofblood.common.glyphs;
 
+import com.breakinblocks.neovitae.api.NeoVitaeAPI;
+import com.breakinblocks.neovitae.common.datacomponent.SpiritusType;
+import com.breakinblocks.neovitae.common.item.soul.SentientToolHelper;
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
 import com.hollingsworth.arsnouveau.api.spell.AbstractEffect;
 import com.hollingsworth.arsnouveau.api.spell.IDamageEffect;
@@ -33,9 +36,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.jetbrains.annotations.NotNull;
-import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
-import wayoftime.bloodmagic.common.item.soul.ItemSentientSword;
-import wayoftime.bloodmagic.will.PlayerDemonWillHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +57,8 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
         if (!(shooter instanceof Player player))
             return;
 
-        EnumDemonWillType type = DemonWillUtil.getActiveTypeFromPlayer(spellContext);
-        int souls = (int) PlayerDemonWillHandler.getTotalDemonWill(type, player);
+        SpiritusType type = DemonWillUtil.getActiveTypeFromPlayer(spellContext);
+        int souls = (int) NeoVitaeAPI.getInstance().getPlayerSpiritusHandler().getTotalSpiritus(type, player);
         int bracket = DemonWillUtil.getBracket(type, souls);
         Vec3 vec = safelyGetHitPos(rayTraceResult);
         float baseDamage = (float) (DAMAGE.get() + AMP_VALUE.get() * spellStats.getAmpMultiplier());
@@ -87,8 +87,8 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
         }
 
         // Consume will
-        double willCost = ItemSentientSword.soulDrainPerSwing[Math.max(bracket, 0)] * targets.size() * (targets.size() > 1 ? 0.75 : 1);
-        PlayerDemonWillHandler.consumeDemonWill(type, player, willCost);
+        double willCost = SentientToolHelper.SOUL_DRAIN_PER_SWING[Math.max(bracket, 0)] * targets.size() * (targets.size() > 1 ? 0.75 : 1);
+        NeoVitaeAPI.getInstance().getPlayerSpiritusHandler().consumeSpiritus(type, player, willCost);
 
         //trigger on hit
         targets.stream().filter(it -> !it.isAlive()).findAny().ifPresent(it -> applyEffectOnKill(player, type, duration));
@@ -106,19 +106,19 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
 
     }
 
-    public void applyEffectOnKill(Player player, EnumDemonWillType type, int duration) {
-        if (type == EnumDemonWillType.DEFAULT)
+    public void applyEffectOnKill(Player player, SpiritusType type, int duration) {
+        if (type == SpiritusType.RAW)
             return;
         MobEffectInstance instance = switch (type) {
-            case CORROSIVE -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration * 20);
-            case VENGEFUL -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, duration * 20);
-            case STEADFAST -> new MobEffectInstance(MobEffects.ABSORPTION, duration * 20, 127);
-            case DESTRUCTIVE -> new MobEffectInstance(ModPotions.SPELL_DAMAGE_EFFECT.get(), duration * 20);
+            case RUINA -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration * 20);
+            case VINDICTA -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, duration * 20);
+            case INVICTUS -> new MobEffectInstance(MobEffects.ABSORPTION, duration * 20, 127);
+            case NIHILUM -> new MobEffectInstance(ModPotions.SPELL_DAMAGE_EFFECT.get(), duration * 20);
             default -> throw new IllegalStateException("Unexpected value: " + type);
         };
 
         player.addEffect(instance);
-        if (type == EnumDemonWillType.STEADFAST) {
+        if (type == SpiritusType.INVICTUS) {
             float extra = player.getAbsorptionAmount();
             player.setAbsorptionAmount(Math.min(extra + player.getMaxHealth() * 0.2f, 10));
         }

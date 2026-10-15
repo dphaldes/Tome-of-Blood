@@ -1,5 +1,9 @@
 package com.mystchonky.tomeofblood.common.glyphs;
 
+import com.breakinblocks.neovitae.api.NeoVitaeAPI;
+import com.breakinblocks.neovitae.common.datacomponent.SpiritusType;
+import com.breakinblocks.neovitae.common.effect.NVMobEffects;
+import com.breakinblocks.neovitae.common.item.soul.SentientToolHelper;
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
 import com.hollingsworth.arsnouveau.api.spell.AbstractEffect;
 import com.hollingsworth.arsnouveau.api.spell.IDamageEffect;
@@ -27,10 +31,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.jetbrains.annotations.NotNull;
-import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
-import wayoftime.bloodmagic.common.item.soul.ItemSentientSword;
-import wayoftime.bloodmagic.potion.BloodMagicPotions;
-import wayoftime.bloodmagic.will.PlayerDemonWillHandler;
 
 import java.util.Map;
 import java.util.Set;
@@ -46,14 +46,14 @@ public class EffectSentientHarm extends AbstractEffect implements IDamageEffect,
     @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (shooter instanceof Player player && rayTraceResult.getEntity() instanceof LivingEntity target) {
-            EnumDemonWillType type = DemonWillUtil.getActiveTypeFromPlayer(spellContext);
-            int souls = (int) PlayerDemonWillHandler.getTotalDemonWill(type, player);
+            SpiritusType type = DemonWillUtil.getActiveTypeFromPlayer(spellContext);
+            int souls = (int) NeoVitaeAPI.getInstance().getPlayerSpiritusHandler().getTotalSpiritus(type, player);
             int bracket = DemonWillUtil.getBracket(type, souls);
             int time = (int) spellStats.getDurationMultiplier();
             float damage = (float) (DAMAGE.get() + DemonWillUtil.getExtraDamage(type, bracket) + (AMP_VALUE.get() * spellStats.getAmpMultiplier()));
 
-            target.addEffect(new MobEffectInstance(BloodMagicPotions.SOUL_SNARE.get(), 300, 0, false, false));
-            applyConfigPotion(target, BloodMagicPotions.SOUL_SNARE.get(), spellStats, false);
+            target.addEffect(new MobEffectInstance(NVMobEffects.SPIRITUS_SNARE, 300, 0, false, false));
+            applyConfigPotion(target, NVMobEffects.SPIRITUS_SNARE, spellStats, false);
 
             if (time > 0) {
                 applyConfigPotion(target, getEffectType(type), spellStats);
@@ -61,20 +61,20 @@ public class EffectSentientHarm extends AbstractEffect implements IDamageEffect,
                 // TODO: Change to bloodmagic damage source later
                 boolean damaged = attemptDamage(world, shooter, spellStats, spellContext, resolver, target, buildDamageSource(world, shooter), damage);
                 if (damaged && bracket >= 0) {
-                    PlayerDemonWillHandler.consumeDemonWill(type, player, ItemSentientSword.soulDrainPerSwing[bracket]);
+                    NeoVitaeAPI.getInstance().getPlayerSpiritusHandler().consumeSpiritus(type, player, SentientToolHelper.SOUL_DRAIN_PER_SWING[bracket]);
                 }
             }
         }
 
     }
 
-    public MobEffect getEffectType(EnumDemonWillType type) {
+    public MobEffect getEffectType(SpiritusType type) {
         return switch (type) {
-            case DEFAULT -> MobEffects.POISON;
-            case CORROSIVE -> MobEffects.WITHER;
-            case VENGEFUL -> MobEffects.WEAKNESS;
-            case STEADFAST -> MobEffects.MOVEMENT_SLOWDOWN;
-            case DESTRUCTIVE -> MobEffectRegistry.VULNERABLE.get();
+            case RAW -> MobEffects.POISON;
+            case RUINA -> MobEffects.WITHER;
+            case VINDICTA -> MobEffects.WEAKNESS;
+            case INVICTUS -> MobEffects.MOVEMENT_SLOWDOWN;
+            case NIHILUM -> MobEffectRegistry.VULNERABLE.get();
         };
     }
 
