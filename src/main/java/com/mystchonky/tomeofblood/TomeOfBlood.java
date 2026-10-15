@@ -5,7 +5,6 @@ import com.hollingsworth.arsnouveau.setup.proxy.IProxy;
 import com.hollingsworth.arsnouveau.setup.proxy.ServerProxy;
 import com.mystchonky.tomeofblood.client.registry.ParticleRegistry;
 import com.mystchonky.tomeofblood.common.config.BaseConfig;
-import com.mystchonky.tomeofblood.common.network.Networking;
 import com.mystchonky.tomeofblood.common.registry.IntegrationRegistry;
 import com.mystchonky.tomeofblood.common.registry.ItemRegistry;
 import com.mystchonky.tomeofblood.common.registry.LivingUpgradeRegistry;
@@ -66,7 +65,6 @@ public class TomeOfBlood {
 
     private void setup(final FMLCommonSetupEvent event) {
         IntegrationRegistry.postInit();
-        Networking.registerMessages();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
