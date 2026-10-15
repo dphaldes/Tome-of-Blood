@@ -9,19 +9,17 @@ import com.mystchonky.tomeofblood.TomeOfBlood;
 import com.mystchonky.tomeofblood.client.ClientInfo;
 import com.mystchonky.tomeofblood.common.registry.LivingUpgradeRegistry;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import wayoftime.bloodmagic.core.living.LivingStats;
 import wayoftime.bloodmagic.core.living.LivingUtil;
 
-@Mod.EventBusSubscriber(modid = TomeOfBlood.MODID)
+@EventBusSubscriber(modid = TomeOfBlood.MODID)
 public class EventHandler {
     @SubscribeEvent
-    public static void clientTickEnd(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            ClientInfo.ticksInGame++;
-        }
+    public static void clientTickEnd(ClientTickEvent.Post event) {
+        ClientInfo.ticksInGame++;
     }
 
     @SubscribeEvent

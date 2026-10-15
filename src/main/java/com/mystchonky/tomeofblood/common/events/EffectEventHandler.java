@@ -2,12 +2,12 @@ package com.mystchonky.tomeofblood.common.events;
 
 import com.mystchonky.tomeofblood.TomeOfBlood;
 import com.mystchonky.tomeofblood.common.registry.MobEffectRegistry;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import wayoftime.bloodmagic.event.SacrificeKnifeUsedEvent;
 
-@Mod.EventBusSubscriber(modid = TomeOfBlood.MODID)
+@EventBusSubscriber(modid = TomeOfBlood.MODID)
 public class EffectEventHandler {
 
     @SubscribeEvent
@@ -18,8 +18,8 @@ public class EffectEventHandler {
     }
 
     @SubscribeEvent
-    public static void vulnerableEntity(LivingHurtEvent event) {
-        if (event.getEntity().hasEffect(MobEffectRegistry.VULNERABLE.get())) {
+    public static void vulnerableEntity(LivingIncomingDamageEvent event) {
+        if (event.getEntity().hasEffect(MobEffectRegistry.VULNERABLE)) {
             event.setAmount((float) (event.getAmount() * 1.1));
         }
     }

@@ -4,13 +4,13 @@ import com.hollingsworth.arsnouveau.common.items.SpellBook;
 import com.mystchonky.tomeofblood.TomeOfBlood;
 import com.mystchonky.tomeofblood.common.items.TomeOfBloodItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import wayoftime.bloodmagic.api.event.BloodMagicCraftedEvent;
 
 import java.util.Arrays;
 
-@Mod.EventBusSubscriber(modid = TomeOfBlood.MODID)
+@EventBusSubscriber(modid = TomeOfBlood.MODID)
 public class RecipeEventHandler {
 
     @SubscribeEvent
