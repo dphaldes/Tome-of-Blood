@@ -34,6 +34,7 @@ public class DataProviders {
         gen.addProvider(event.includeServer(), new PatchouliProvider(gen));
 
         gen.addProvider(event.includeClient(), new GlyphItemModelProvider(output, event.getExistingFileHelper()));
+        gen.addProvider(event.includeClient(), new LangProvider(output));
     }
 
 }

@@ -8,13 +8,10 @@ import com.mystchonky.tomeofblood.common.config.BaseConfig;
 import com.mystchonky.tomeofblood.common.network.Networking;
 import com.mystchonky.tomeofblood.common.registry.IntegrationRegistry;
 import com.mystchonky.tomeofblood.common.registry.ItemRegistry;
-import com.mystchonky.tomeofblood.common.registry.LangRegistry;
 import com.mystchonky.tomeofblood.common.registry.LivingUpgradeRegistry;
 import com.mystchonky.tomeofblood.common.registry.MobEffectRegistry;
-import com.tterrag.registrate.Registrate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,12 +35,7 @@ public class TomeOfBlood {
     public static final String MODID = "tomeofblood";
     public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new); //TODO: Change to our own
 
-    private static final Lazy<Registrate> REGISTRATE = Lazy.of(() -> Registrate.create(MODID));
     public static final Logger LOGGER = LogManager.getLogger();
-
-    public static Registrate registrate() {
-        return REGISTRATE.get();
-    }
 
     public TomeOfBlood() {
         // Ensure the config subdirectory is present.
@@ -58,15 +50,14 @@ public class TomeOfBlood {
         ctx.registerConfig(ModConfig.Type.COMMON, BaseConfig.COMMON_SPEC, MODID + "/base-common.toml");
         ctx.registerConfig(ModConfig.Type.CLIENT, BaseConfig.CLIENT_SPEC, MODID + "/base-client.toml");
 
-        ItemRegistry.register();
+        IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ItemRegistry.register(modbus);
         LivingUpgradeRegistry.register();
-        MobEffectRegistry.register();
-        ParticleRegistry.register();
+        MobEffectRegistry.register(modbus);
+        ParticleRegistry.register(modbus);
         IntegrationRegistry.init();
 
-        LangRegistry.register();
-
-        IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
         modbus.addListener(this::setup);
         modbus.addListener(this::doClientStuff);
 
