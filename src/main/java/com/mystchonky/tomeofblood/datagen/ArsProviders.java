@@ -1,13 +1,10 @@
 package com.mystchonky.tomeofblood.datagen;
 
-import com.hollingsworth.arsnouveau.common.crafting.recipes.ImbuementRecipe;
 import com.hollingsworth.arsnouveau.common.datagen.GlyphRecipeProvider;
 import com.hollingsworth.arsnouveau.common.datagen.ImbuementRecipeProvider;
 import com.mystchonky.tomeofblood.TomeOfBlood;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
-
-import java.nio.file.Path;
 
 
 public class ArsProviders {
@@ -36,15 +33,6 @@ public class ArsProviders {
             );
             */
 
-            for (ImbuementRecipe g : recipes) {
-                Path path = getRecipePath(output, g.getId().getPath());
-                saveStable(pOutput, g.asRecipe(), path);
-            }
-
-        }
-
-        protected Path getRecipePath(Path pathIn, String str) {
-            return pathIn.resolve("data/" + root + "/recipes/" + str + ".json");
         }
 
         @Override

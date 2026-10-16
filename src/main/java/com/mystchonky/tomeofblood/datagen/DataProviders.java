@@ -9,11 +9,11 @@ import com.mystchonky.tomeofblood.datagen.recipes.EnchantingAppRecipeProvider;
 import com.mystchonky.tomeofblood.datagen.recipes.ToBGlyphRecipeProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 
-@Mod.EventBusSubscriber(modid = TomeOfBlood.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = TomeOfBlood.MODID)
 public class DataProviders {
 
     //use runData configuration to generate stuff, event.includeServer() for data, event.includeClient() for assets
