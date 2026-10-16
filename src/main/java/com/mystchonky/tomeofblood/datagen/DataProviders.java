@@ -29,8 +29,6 @@ public class DataProviders {
         gen.addProvider(event.includeServer(), new ToBRecipeProvider(output, event.getLookupProvider()));
         gen.addProvider(event.includeServer(), new ToBGlyphRecipeProvider(gen));
 
-        gen.addProvider(event.includeServer(), new PatchouliProvider(gen));
-
         gen.addProvider(event.includeClient(), new GlyphItemModelProvider(output, event.getExistingFileHelper()));
         gen.addProvider(event.includeClient(), new LangProvider(output));
     }
