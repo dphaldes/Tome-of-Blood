@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "neovitae"
+    }
+  ],
+  "type": "neovitae:alchemytable",
+  "input": [
+    {
+      "item": "tomeofblood:novice_tome_of_blood"
+    },
+    {
+      "item": "minecraft:obsidian"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:quartz_block"
+    },
+    {
+      "item": "minecraft:blaze_rod"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "tomeofblood:apprentice_tome_of_blood"
+  },
+  "syphon": 5000,
+  "ticks": 100,
+  "upgradeLevel": 2
+}

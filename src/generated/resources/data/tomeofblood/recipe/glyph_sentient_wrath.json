@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "neovitae"
+    }
+  ],
+  "type": "ars_nouveau:glyph",
+  "exp": 55,
+  "inputs": [
+    {
+      "item": "neovitae:sentient_scythe"
+    },
+    {
+      "item": "neovitae:throwing_dagger"
+    },
+    {
+      "item": "ars_nouveau:conjuration_essence"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "tomeofblood:glyph_sentient_wrath"
+  }
+}

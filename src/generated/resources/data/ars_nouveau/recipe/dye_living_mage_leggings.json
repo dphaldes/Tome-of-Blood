@@ -1,14 +1,16 @@
 {
   "type": "ars_nouveau:dye",
+  "category": "misc",
   "ingredients": [
     {
-      "tag": "forge:dyes"
+      "tag": "c:dyes"
     },
     {
       "item": "tomeofblood:living_mage_leggings"
     }
   ],
   "result": {
-    "item": "tomeofblood:living_mage_leggings"
+    "count": 1,
+    "id": "tomeofblood:living_mage_leggings"
   }
 }

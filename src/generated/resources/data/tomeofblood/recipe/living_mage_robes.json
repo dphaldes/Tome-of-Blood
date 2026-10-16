@@ -1,9 +1,6 @@
 {
   "type": "ars_nouveau:enchanting_apparatus",
   "keepNbtOfReagent": true,
-  "output": {
-    "item": "tomeofblood:living_mage_robes"
-  },
   "pedestalItems": [
     {
       "item": "ars_nouveau:magebloom_fiber"
@@ -18,10 +15,12 @@
       "item": "ars_nouveau:magebloom_fiber"
     }
   ],
-  "reagent": [
-    {
-      "item": "bloodmagic:livingplate"
-    }
-  ],
+  "reagent": {
+    "item": "neovitae:sentient_plate"
+  },
+  "result": {
+    "count": 1,
+    "id": "tomeofblood:living_mage_robes"
+  },
   "sourceCost": 0
 }
