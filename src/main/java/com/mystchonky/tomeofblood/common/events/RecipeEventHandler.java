@@ -8,6 +8,8 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 
+import java.util.Arrays;
+
 @EventBusSubscriber(modid = TomeOfBlood.MODID)
 public class RecipeEventHandler {
 
@@ -19,6 +21,20 @@ public class RecipeEventHandler {
                 tome.applyComponents(event.getInputs()[0].getComponentsPatch());
                 event.setOutput(tome);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void alchemyTableSpellbookRecipe(NeoVitaeCraftedEvent.AlchemyTable event) {
+        if (event.getOutput().getItem() instanceof TomeOfBloodItem) {
+            Arrays.stream(event.getInputs())
+                    .filter(itemStack -> itemStack.getItem() instanceof TomeOfBloodItem)
+                    .findFirst().ifPresent((input) -> {
+                                ItemStack tome = event.getOutput().copy();
+                                tome.applyComponents(input.getComponentsPatch());
+                                event.setOutput(tome);
+                            }
+                    );
         }
     }
 
