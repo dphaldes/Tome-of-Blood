@@ -35,6 +35,7 @@ public class LangProvider extends LanguageProvider {
 
         add(MobEffectRegistry.SERENE.get(), "Serene");
         add(MobEffectRegistry.VULNERABLE.get(), "Vulnerable");
+        add(MobEffectRegistry.MARKED.get(), "Marked");
 
         add(LangRegistry.SCHOOL_BLOODMAGIC, "Blood Magic");
         add(LangRegistry.LOW_LP, "Your soul feels weak..");
