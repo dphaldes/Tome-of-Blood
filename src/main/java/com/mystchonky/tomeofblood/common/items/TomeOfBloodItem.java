@@ -1,38 +1,32 @@
 package com.mystchonky.tomeofblood.common.items;
 
-import com.hollingsworth.arsnouveau.api.spell.ISpellCaster;
+import com.hollingsworth.arsnouveau.api.spell.SpellCaster;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
 import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import com.hollingsworth.arsnouveau.api.spell.SpellTier;
 import com.hollingsworth.arsnouveau.common.items.SpellBook;
+import com.hollingsworth.arsnouveau.setup.registry.DataComponentRegistry;
 import com.mystchonky.tomeofblood.client.renderer.item.TomeOfBloodRenderer;
 import com.mystchonky.tomeofblood.common.spell.BloodSpellResolver;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
 public class TomeOfBloodItem extends SpellBook {
 
     public TomeOfBloodItem(Properties properties, SpellTier tier) {
-        super(properties, tier);
+        super(properties.component(DataComponentRegistry.SPELL_CASTER, new SpellCaster(10)), tier);
         this.tier = tier;
     }
 
-    @Override
-    public @NotNull ISpellCaster getSpellCaster(ItemStack stack) {
-        return new BloodBookCaster(stack);
-    }
+    public static class BloodBookCaster extends SpellCaster {
 
-    public static class BloodBookCaster extends BookCaster {
-
-        public BloodBookCaster(ItemStack stack) {
-            super(stack);
+        public BloodBookCaster(SpellCaster caster) {
+            super(caster.getCurrentSlot(), caster.getFlavorText(), caster.isSpellHidden(), caster.getHiddenRecipe(), caster.getMaxSlots(), caster.getSpells());
         }
 
         @Override
