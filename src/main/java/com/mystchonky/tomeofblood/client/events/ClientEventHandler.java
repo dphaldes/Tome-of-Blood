@@ -3,6 +3,7 @@ package com.mystchonky.tomeofblood.client.events;
 import com.mystchonky.tomeofblood.TomeOfBlood;
 import com.mystchonky.tomeofblood.common.registry.ItemRegistry;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
@@ -23,7 +24,7 @@ public class ClientEventHandler {
 
 
     public static int colorFromArmor(ItemStack stack) {
-        return stack.getOrDefault(DataComponents.BASE_COLOR, DyeColor.RED).getTextColor();
+        return FastColor.ARGB32.opaque(stack.getOrDefault(DataComponents.BASE_COLOR, DyeColor.RED).getTextColor());
     }
 
 }
