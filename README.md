@@ -10,17 +10,17 @@
 </center>
 
 Adds compatibility between [Ars Nouveau](https://modrinth.com/mod/ars-nouveau)
-and [Blood Magic](https://modrinth.com/mod/blood-magic) in the form of new Spell books and Equipment!
+and [Neo Vitae](https://modrinth.com/mod/neovitae) in the form of new Spell books and Equipment!
 
 ### Features :
 
-- Tome of Blood - Spell books that use LP to cast instead of mana
-- Glyph of Sentient Harm - Does sentient damage and scales with the amount Demon will
-- Heretic's Armor - a new armor that mixes Blood magic living armor with Ars Nouveau Perk System
-- Mint Tea - item to help LP generation early game
-- New perks and living armor upgrades!
+- Tome of Blood - Spell books that use EV to cast instead of mana
+- Glyph of Sentient Harm - Does sentient damage and scales with the amount Spiritus
+- Heretic's Armor - a new armor that mixes Neo Vitae sentient armor with Ars Nouveau Perk System
+- Mint Tea - item to help EV generation early game
+- New perks and sentient armor upgrades!
 
-For a full overview, check the `Tome of Blood` section of the Worn Notebook (Ars Nouveau Patchouli Guidebook)
+For a full overview, check the `Tome of Blood` section of the Worn Notebook (Ars Nouveau Guidebook)
 
 ### License
 
