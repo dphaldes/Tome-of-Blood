@@ -113,8 +113,8 @@ public class EffectSentientHarm extends AbstractEffect implements IDamageEffect,
 
     @Override
     public String getBookDescription() {
-        return "Consume Demon Will and attack your target (damage scales with will in inventory). Target drops Raw will on kill. $(br2)Extend Time applies potion effect based on Will type. $(br2)" +
-                "Raw - Poison $(br)Corrosive - Withering $(br)Vengeful - Weakness $(br)Steadfast - Slowness $(br)Destructive - Vulnerable ";
+        return "Consumes Spiritus to attack your target. Damage scales with the Spiritus you carry, and the target drops Spiritus when killed. " +
+                "With Extend Time, it applies an effect based on your Spiritus type instead: Raw causes Poison, Ruina causes Wither, Vindicta causes Weakness, Invictus causes Slowness and Nihilum causes Vulnerable.";
     }
 
     public Set<SpellSchool> getSchools() {

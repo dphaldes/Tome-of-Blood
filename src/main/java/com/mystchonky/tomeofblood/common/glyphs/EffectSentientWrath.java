@@ -163,8 +163,8 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
 
     @Override
     public String getBookDescription() {
-        return "Marks a target on first hit. Attacking a marked target will do a scaling heavy attack in a radius and Marks all targets. Consumes Will. $(br2)Grants player bonuses on kill when not using Raw will.$(br2)" +
-                "Corrosive - Resistance$(br)Vengeful - Speed$(br)Steadfast - Absorption$(br)Destructive - Spell Power";
+        return "Marks a target on the first hit. Attacking a marked target does a heavy attack that scales with your Spiritus, hits everything in a radius and marks them all. Consumes Spiritus. " +
+                "Killing a target grants a bonus unless you are using Raw Spiritus: Ruina grants Resistance, Vindicta grants Speed, Invictus grants Absorption and Nihilum grants Spell Damage.";
     }
 
     @Override
