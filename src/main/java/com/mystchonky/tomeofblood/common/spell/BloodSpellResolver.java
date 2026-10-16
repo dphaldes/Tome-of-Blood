@@ -31,7 +31,7 @@ public class BloodSpellResolver extends SpellResolver {
     @Override
     public boolean canCast(LivingEntity entity) {
         // Validate the spell
-        List<SpellValidationError> validationErrors = spellValidator.validate(spell.recipe);
+        List<SpellValidationError> validationErrors = spellValidator.validate(spell.unsafeList());
 
         if (validationErrors.isEmpty()) {
             // Validation successful. We can check the player's mana now.
@@ -48,7 +48,7 @@ public class BloodSpellResolver extends SpellResolver {
 
     boolean enoughSpirit(LivingEntity entity) {
         int totalCost = getResolveCost();
-        IManaCap manaCap = CapabilityRegistry.getMana(entity).orElse(null);
+        IManaCap manaCap = CapabilityRegistry.getMana(entity);
         if (manaCap == null)
             return false;
         double remainder = manaCap.getCurrentMana() - totalCost;
@@ -80,8 +80,9 @@ public class BloodSpellResolver extends SpellResolver {
 
     @Override
     public void expendMana() {
-        int totalCost = getResolveCost();
-        CapabilityRegistry.getMana(spellContext.getUnwrappedCaster()).ifPresent(mana -> {
+        int totalCost = getExpendedCost();
+        IManaCap mana = CapabilityRegistry.getMana(spellContext.getUnwrappedCaster());
+        if (mana != null) {
             double remainder = mana.getCurrentMana() - totalCost;
             if (remainder >= 0) {
                 // if player has more mana than required, use the mana to cast
@@ -101,7 +102,7 @@ public class BloodSpellResolver extends SpellResolver {
                 }
 
             }
-        });
+        }
 
     }
 
