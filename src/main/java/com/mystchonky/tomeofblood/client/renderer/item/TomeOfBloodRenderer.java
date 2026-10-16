@@ -14,6 +14,6 @@ public class TomeOfBloodRenderer extends SpellBookRenderer {
     @Override
     public ResourceLocation getTextureLocation(SpellBook o) {
         String base = "textures/item/spellbook_black";
-        return new ResourceLocation(TomeOfBlood.MODID, base + ".png");
+        return TomeOfBlood.prefix(base + ".png");
     }
 }
