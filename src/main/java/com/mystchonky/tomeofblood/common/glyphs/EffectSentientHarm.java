@@ -89,6 +89,14 @@ public class EffectSentientHarm extends AbstractEffect implements IDamageEffect,
     }
 
     @Override
+    public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
+        super.addAugmentDescriptions(map);
+        map.put(AugmentExtendTime.INSTANCE, "Applies an effect based on the Spiritus type instead of dealing damage, increases the duration.");
+        map.put(AugmentDurationDown.INSTANCE, "Applies an effect based on the Spiritus type instead of dealing damage, decreases the duration.");
+        map.put(AugmentAmplify.INSTANCE, "Increases damage dealt, or the level of the effect applied.");
+    }
+
+    @Override
     protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
         defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
     }

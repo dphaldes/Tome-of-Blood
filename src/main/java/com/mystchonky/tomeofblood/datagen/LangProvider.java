@@ -1,5 +1,6 @@
 package com.mystchonky.tomeofblood.datagen;
 
+import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
 import com.mystchonky.tomeofblood.TomeOfBlood;
 import com.mystchonky.tomeofblood.common.registry.IntegrationRegistry;
 import com.mystchonky.tomeofblood.common.registry.ItemRegistry;
@@ -9,6 +10,9 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.neoforged.neoforge.common.data.LanguageProvider;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LangProvider extends LanguageProvider {
 
@@ -39,6 +43,10 @@ public class LangProvider extends LanguageProvider {
         IntegrationRegistry.registeredSpells.forEach(spell -> {
             add(TomeOfBlood.MODID + ".glyph_name." + spell.getRegistryName().getPath(), spell.getName());
             add(TomeOfBlood.MODID + ".glyph_desc." + spell.getRegistryName().getPath(), spell.getBookDescription());
+
+            Map<AbstractAugment, String> augmentDescriptions = new HashMap<>();
+            spell.addAugmentDescriptions(augmentDescriptions);
+            augmentDescriptions.forEach((augment, description) -> add(spell.getAugmentLangKey(augment), description));
         });
     }
 

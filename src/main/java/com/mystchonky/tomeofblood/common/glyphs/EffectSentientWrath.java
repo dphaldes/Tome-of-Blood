@@ -134,6 +134,14 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
     }
 
     @Override
+    public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
+        super.addAugmentDescriptions(map);
+        map.put(AugmentAOE.INSTANCE, "Increases the radius of the heavy attack.");
+        map.put(AugmentExtendTime.INSTANCE, "Increases the duration of Marked and of the bonus granted on a kill.");
+        map.put(AugmentDurationDown.INSTANCE, "Decreases the duration of Marked and of the bonus granted on a kill.");
+    }
+
+    @Override
     protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
         defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
     }
