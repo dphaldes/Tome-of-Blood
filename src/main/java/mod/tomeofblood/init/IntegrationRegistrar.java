@@ -10,9 +10,9 @@ import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
 import com.hollingsworth.arsnouveau.api.spell.SpellCaster;
 import com.hollingsworth.arsnouveau.api.spell.SpellSchool;
 import com.hollingsworth.arsnouveau.setup.registry.DataComponentRegistry;
-import mod.tomeofblood.common.glyphs.EffectSentientHarm;
-import mod.tomeofblood.common.glyphs.EffectSentientWrath;
-import mod.tomeofblood.common.items.TomeOfBloodItem;
+import mod.tomeofblood.content.spell.EffectSentientHarm;
+import mod.tomeofblood.content.spell.EffectSentientWrath;
+import mod.tomeofblood.content.spellbook.TomeOfBloodItem;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
