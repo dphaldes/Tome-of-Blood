@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "neovitae"
+    }
+  ],
+  "type": "ars_nouveau:glyph",
+  "exp": 27,
+  "inputs": [
+    {
+      "item": "neovitae:sentient_sword"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "tomeofblood:glyph_sentient_harm"
+  }
+}

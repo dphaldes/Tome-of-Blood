@@ -4,10 +4,15 @@ package com.mystchonky.tomeofblood.datagen.recipes;
 import com.google.gson.JsonElement;
 import com.hollingsworth.arsnouveau.common.crafting.recipes.DyeRecipe;
 import com.hollingsworth.arsnouveau.common.datagen.SimpleDataProvider;
+import com.mojang.serialization.JsonOps;
 import com.mystchonky.tomeofblood.common.registry.ItemRegistry;
+import net.minecraft.core.NonNullList;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.neoforged.neoforge.common.Tags;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -39,8 +44,9 @@ public class DyeRecipeProvider extends SimpleDataProvider {
     }
 
     public void addDyeRecipe(ItemLike inputItem) {
-        JsonElement dyeRecipe = DyeRecipe.asRecipe(inputItem.asItem());
-        add(new FileObj(output.resolve("data/ars_nouveau/recipes/dye_" + getRegistryName(inputItem.asItem()).getPath() + ".json"), dyeRecipe));
+        DyeRecipe recipe = new DyeRecipe("", CraftingBookCategory.MISC, inputItem.asItem().getDefaultInstance(), NonNullList.of(Ingredient.EMPTY, Ingredient.of(Tags.Items.DYES), Ingredient.of(inputItem)));
+        JsonElement dyeRecipe = DyeRecipe.CODEC.encodeStart(JsonOps.INSTANCE, recipe).getOrThrow();
+        add(new FileObj(output.resolve("data/ars_nouveau/recipe/dye_" + getRegistryName(inputItem.asItem()).getPath() + ".json"), dyeRecipe));
     }
 
     @Override

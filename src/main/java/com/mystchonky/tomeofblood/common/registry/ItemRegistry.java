@@ -1,81 +1,59 @@
 package com.mystchonky.tomeofblood.common.registry;
 
+import com.breakinblocks.neovitae.common.creativetab.NVTabs;
+import com.breakinblocks.neovitae.common.sentient.SentientHelper;
 import com.hollingsworth.arsnouveau.api.spell.SpellTier;
 import com.mystchonky.tomeofblood.TomeOfBlood;
 import com.mystchonky.tomeofblood.common.items.LivingMageArmorItem;
 import com.mystchonky.tomeofblood.common.items.MintTeaItem;
 import com.mystchonky.tomeofblood.common.items.TomeOfBloodItem;
-import com.tterrag.registrate.Registrate;
-import com.tterrag.registrate.util.entry.ItemEntry;
-import com.tterrag.registrate.util.entry.RegistryEntry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import wayoftime.bloodmagic.common.registries.BloodMagicCreativeTabs;
-import wayoftime.bloodmagic.core.living.LivingStats;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ItemRegistry {
-    private static final Registrate REGISTRATE = TomeOfBlood.registrate();
+    private static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(TomeOfBlood.MODID);
+    private static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, TomeOfBlood.MODID);
 
-    public static final RegistryEntry<CreativeModeTab> CREATIVE_TAB = REGISTRATE.defaultCreativeTab("tome_of_blood",
-                    tab -> tab.icon(() -> ItemRegistry.ARCHMAGE_TOME.get().getDefaultInstance())
-                            .withTabsBefore(BloodMagicCreativeTabs.BLOODMAGIC_UPGRADES.getKey())
-                            .build()
-            )
-            .register();
+    public static final DeferredItem<TomeOfBloodItem> NOVICE_TOME = ITEMS.register("novice_tome_of_blood", () -> new TomeOfBloodItem(new Item.Properties().stacksTo(1), SpellTier.ONE));
+    public static final DeferredItem<TomeOfBloodItem> APPRENTICE_TOME = ITEMS.register("apprentice_tome_of_blood", () -> new TomeOfBloodItem(new Item.Properties().stacksTo(1), SpellTier.TWO));
+    public static final DeferredItem<TomeOfBloodItem> ARCHMAGE_TOME = ITEMS.register("archmage_tome_of_blood", () -> new TomeOfBloodItem(new Item.Properties().stacksTo(1), SpellTier.THREE));
 
-    public static final ItemEntry<TomeOfBloodItem> NOVICE_TOME = REGISTRATE.item("novice_tome_of_blood", (properties) -> new TomeOfBloodItem(properties, SpellTier.ONE))
-            .lang("Novice Tome of Blood")
-            .properties((properties -> properties.stacksTo(1)))
-            .model((ctx, prov) -> {
-            })
-            .register();
+    public static final DeferredItem<MintTeaItem> MINT_TEA = ITEMS.register("mint_tea", () -> new MintTeaItem(new Item.Properties().stacksTo(1)));
 
-    public static final ItemEntry<TomeOfBloodItem> APPRENTICE_TOME = REGISTRATE.item("apprentice_tome_of_blood", (properties) -> new TomeOfBloodItem(properties, SpellTier.TWO))
-            .lang("Apprentice Tome of Blood")
-            .properties((properties -> properties.stacksTo(1)))
-            .model((ctx, prov) -> {
-            })
-            .register();
-    public static final ItemEntry<TomeOfBloodItem> ARCHMAGE_TOME = REGISTRATE.item("archmage_tome_of_blood", (properties) -> new TomeOfBloodItem(properties, SpellTier.THREE))
-            .lang("Archmage Tome of Blood")
-            .properties((properties -> properties.stacksTo(1)))
-            .model((ctx, prov) -> {
-            })
-            .register();
+    public static final DeferredItem<LivingMageArmorItem> LIVING_MAGE_HOOD = ITEMS.register("living_mage_hood", () -> new LivingMageArmorItem(ArmorItem.Type.HELMET));
+    public static final DeferredItem<LivingMageArmorItem> LIVING_MAGE_ROBES = ITEMS.register("living_mage_robes", () -> new LivingMageArmorItem(ArmorItem.Type.CHESTPLATE));
+    public static final DeferredItem<LivingMageArmorItem> LIVING_MAGE_LEGGINGS = ITEMS.register("living_mage_leggings", () -> new LivingMageArmorItem(ArmorItem.Type.LEGGINGS));
+    public static final DeferredItem<LivingMageArmorItem> LIVING_MAGE_BOOTS = ITEMS.register("living_mage_boots", () -> new LivingMageArmorItem(ArmorItem.Type.BOOTS));
 
-    public static final ItemEntry<MintTeaItem> MINT_TEA = REGISTRATE.item("mint_tea", MintTeaItem::new)
-            .lang("Mint Tea")
-            .properties((properties -> properties.stacksTo(1)))
-            .register();
-
-    public static final ItemEntry<LivingMageArmorItem> LIVING_MAGE_HOOD = REGISTRATE.item("living_mage_hood", (prop) -> new LivingMageArmorItem(ArmorItem.Type.HELMET))
-            .lang("Heretic's Hood")
-            .model((ctx, prov) -> {
-            })
-            .register();
-    public static final ItemEntry<LivingMageArmorItem> LIVING_MAGE_ROBES = REGISTRATE.item("living_mage_robes", (prop) -> new LivingMageArmorItem(ArmorItem.Type.CHESTPLATE))
-            .lang("Heretic's Robes")
-            .model((ctx, prov) -> {
-            })
-            .tab(ItemRegistry.CREATIVE_TAB.getKey(), modifier -> {
-                var armor = ItemRegistry.LIVING_MAGE_ROBES.get();
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register("tome_of_blood", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.tomeofblood.tome_of_blood"))
+            .icon(() -> ItemRegistry.ARCHMAGE_TOME.get().getDefaultInstance())
+            .withTabsBefore(NVTabs.TRAINERS.unwrapKey().orElseThrow())
+            .displayItems((params, output) -> {
+                output.accept(NOVICE_TOME.get());
+                output.accept(APPRENTICE_TOME.get());
+                output.accept(ARCHMAGE_TOME.get());
+                output.accept(MINT_TEA.get());
+                output.accept(LIVING_MAGE_HOOD.get());
+                var armor = LIVING_MAGE_ROBES.get();
                 ItemStack stack = armor.getDefaultInstance();
-                armor.updateLivingStats(stack, new LivingStats());
-                modifier.accept(stack);
+                SentientHelper.setDefaultSentient(stack, params.holders());
+                output.accept(stack);
+                output.accept(LIVING_MAGE_LEGGINGS.get());
+                output.accept(LIVING_MAGE_BOOTS.get());
             })
-            .register();
-    public static final ItemEntry<LivingMageArmorItem> LIVING_MAGE_LEGGINGS = REGISTRATE.item("living_mage_leggings", (prop) -> new LivingMageArmorItem(ArmorItem.Type.LEGGINGS))
-            .lang("Heretic's Leggings")
-            .model((ctx, prov) -> {
-            })
-            .register();
-    public static final ItemEntry<LivingMageArmorItem> LIVING_MAGE_BOOTS = REGISTRATE.item("living_mage_boots", (prop) -> new LivingMageArmorItem(ArmorItem.Type.BOOTS))
-            .lang("Heretic's Boots")
-            .model((ctx, prov) -> {
-            })
-            .register();
+            .build());
 
-    public static void register() {
+    public static void register(IEventBus modBus) {
+        ITEMS.register(modBus);
+        CREATIVE_TABS.register(modBus);
     }
 }

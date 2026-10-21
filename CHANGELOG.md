@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.5.0] - 2026-10-15
+
+### Changed
+
+- Port to Minecraft 1.21.1 and NeoForge.
+- Requires Ars Nouveau 5.13 and Neo Vitae 1.1.40 or newer.
+- Tomes are made in the Ara Vitae and upgraded in the Tabula Vitae, and keep their spells in both.
+- Heretic's Armor is crafted from Sentient Armor in the Enchanting Apparatus, keeps its upgrades and counts toward a full Sentient set.
+- Mana Attunement is now a Neo Vitae sentient upgrade.
+- Serene raises Neo Vitae's self-sacrifice bonus, so it works for every form of self-sacrifice.
+- The Tome of Blood section moved to Ars Nouveau's new Worn Notebook.
+
+### Fixed
+
+- Sentient Harm and Sentient Wrath now describe what augment they accept.
+- The Marked effect shows localized name.
+
 ## [0.4.5] - 2026-01-20
 
 ### Fixed

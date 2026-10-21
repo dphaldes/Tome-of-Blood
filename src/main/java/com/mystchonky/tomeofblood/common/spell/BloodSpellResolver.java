@@ -1,5 +1,8 @@
 package com.mystchonky.tomeofblood.common.spell;
 
+import com.breakinblocks.neovitae.api.NeoVitaeAPI;
+import com.breakinblocks.neovitae.api.soul.AnimaTicket;
+import com.breakinblocks.neovitae.api.soul.IAnima;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.mana.IManaCap;
 import com.hollingsworth.arsnouveau.api.spell.ISpellValidator;
@@ -13,9 +16,6 @@ import com.mystchonky.tomeofblood.common.registry.LangRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import wayoftime.bloodmagic.core.data.SoulNetwork;
-import wayoftime.bloodmagic.core.data.SoulTicket;
-import wayoftime.bloodmagic.util.helper.NetworkHelper;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class BloodSpellResolver extends SpellResolver {
     @Override
     public boolean canCast(LivingEntity entity) {
         // Validate the spell
-        List<SpellValidationError> validationErrors = spellValidator.validate(spell.recipe);
+        List<SpellValidationError> validationErrors = spellValidator.validate(spell.unsafeList());
 
         if (validationErrors.isEmpty()) {
             // Validation successful. We can check the player's mana now.
@@ -48,7 +48,7 @@ public class BloodSpellResolver extends SpellResolver {
 
     boolean enoughSpirit(LivingEntity entity) {
         int totalCost = getResolveCost();
-        IManaCap manaCap = CapabilityRegistry.getMana(entity).orElse(null);
+        IManaCap manaCap = CapabilityRegistry.getMana(entity);
         if (manaCap == null)
             return false;
         double remainder = manaCap.getCurrentMana() - totalCost;
@@ -66,9 +66,9 @@ public class BloodSpellResolver extends SpellResolver {
         if (entity instanceof Player player) {
             if (player.isCreative()) return true;
             double totalCost = manaCost * BaseConfig.COMMON.CONVERSION_RATE.get();
-            SoulNetwork soulNetwork = NetworkHelper.getSoulNetwork(player.getUUID());
+            IAnima anima = NeoVitaeAPI.getInstance().getAnima(player.getUUID());
             //LOGGER.debug("Got soulnetwork for " + soulNetwork.getPlayer().getDisplayName().getString());
-            int pool = soulNetwork.getCurrentEssence();
+            int pool = anima == null ? 0 : anima.getCurrentEV();
             if (pool < totalCost) {
                 PortUtil.sendMessageCenterScreen(player, Component.translatable(LangRegistry.LOW_LP.getString()));
                 return false;
@@ -80,8 +80,9 @@ public class BloodSpellResolver extends SpellResolver {
 
     @Override
     public void expendMana() {
-        int totalCost = getResolveCost();
-        CapabilityRegistry.getMana(spellContext.getUnwrappedCaster()).ifPresent(mana -> {
+        int totalCost = getExpendedCost();
+        IManaCap mana = CapabilityRegistry.getMana(spellContext.getUnwrappedCaster());
+        if (mana != null) {
             double remainder = mana.getCurrentMana() - totalCost;
             if (remainder >= 0) {
                 // if player has more mana than required, use the mana to cast
@@ -93,14 +94,15 @@ public class BloodSpellResolver extends SpellResolver {
                 if (spellContext.getUnwrappedCaster() instanceof Player player) {
                     if (!player.isCreative()) {
                         int cost = (int) (remainder * BaseConfig.COMMON.CONVERSION_RATE.get());
-                        SoulNetwork soulNetwork = NetworkHelper.getSoulNetwork(player.getUUID());
-                        SoulTicket ticket = new SoulTicket(Component.literal("TomeOfBlood|" + player.getName()), cost);
-                        soulNetwork.syphonAndDamage(player, ticket);
+                        IAnima anima = NeoVitaeAPI.getInstance().getAnima(player.getUUID());
+                        if (anima != null) {
+                            anima.syphonAndDamage(player, AnimaTicket.create(cost));
+                        }
                     }
                 }
 
             }
-        });
+        }
 
     }
 

@@ -1,5 +1,8 @@
 package com.mystchonky.tomeofblood.common.glyphs;
 
+import com.breakinblocks.neovitae.api.NeoVitaeAPI;
+import com.breakinblocks.neovitae.common.datacomponent.SpiritusType;
+import com.breakinblocks.neovitae.common.item.soul.SentientToolHelper;
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
 import com.hollingsworth.arsnouveau.api.spell.AbstractEffect;
 import com.hollingsworth.arsnouveau.api.spell.IDamageEffect;
@@ -31,11 +34,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.NotNull;
-import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
-import wayoftime.bloodmagic.common.item.soul.ItemSentientSword;
-import wayoftime.bloodmagic.will.PlayerDemonWillHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +57,8 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
         if (!(shooter instanceof Player player))
             return;
 
-        EnumDemonWillType type = DemonWillUtil.getActiveTypeFromPlayer(spellContext);
-        int souls = (int) PlayerDemonWillHandler.getTotalDemonWill(type, player);
+        SpiritusType type = DemonWillUtil.getActiveTypeFromPlayer(spellContext);
+        int souls = (int) NeoVitaeAPI.getInstance().getPlayerSpiritusHandler().getTotalSpiritus(type, player);
         int bracket = DemonWillUtil.getBracket(type, souls);
         Vec3 vec = safelyGetHitPos(rayTraceResult);
         float baseDamage = (float) (DAMAGE.get() + AMP_VALUE.get() * spellStats.getAmpMultiplier());
@@ -67,8 +67,8 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
 
         List<LivingEntity> targets = new ArrayList<>();
 
-        if (!target.hasEffect(MobEffectRegistry.MARKED.get())) {
-            target.addEffect(new MobEffectInstance(MobEffectRegistry.MARKED.get(), 20 * duration, 1));
+        if (!target.hasEffect(MobEffectRegistry.MARKED)) {
+            target.addEffect(new MobEffectInstance(MobEffectRegistry.MARKED, 20 * duration, 1));
             attemptDamage(level, shooter, spellStats, spellContext, resolver, target, buildDamageSource(level, shooter), baseDamage);
             targets.add(target);
         } else {
@@ -87,8 +87,8 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
         }
 
         // Consume will
-        double willCost = ItemSentientSword.soulDrainPerSwing[Math.max(bracket, 0)] * targets.size() * (targets.size() > 1 ? 0.75 : 1);
-        PlayerDemonWillHandler.consumeDemonWill(type, player, willCost);
+        double willCost = SentientToolHelper.SOUL_DRAIN_PER_SWING[Math.max(bracket, 0)] * targets.size() * (targets.size() > 1 ? 0.75 : 1);
+        NeoVitaeAPI.getInstance().getPlayerSpiritusHandler().consumeSpiritus(type, player, willCost);
 
         //trigger on hit
         targets.stream().filter(it -> !it.isAlive()).findAny().ifPresent(it -> applyEffectOnKill(player, type, duration));
@@ -101,36 +101,44 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
         if (attemptDamage(level, shooter, stats, context, resolver, target, buildDamageSource(level, shooter), damage)) {
             level.sendParticles(ParticleRegistry.WRATH_SLASH.get(), vec.x, vec.y + 0.5, vec.z, 1,
                     ParticleUtil.inRange(-0.1, 0.1), ParticleUtil.inRange(-0.1, 0.1), ParticleUtil.inRange(-0.1, 0.1), 0.3);
-            target.addEffect(new MobEffectInstance(MobEffectRegistry.MARKED.get(), 20 * duration));
+            target.addEffect(new MobEffectInstance(MobEffectRegistry.MARKED, 20 * duration));
         }
 
     }
 
-    public void applyEffectOnKill(Player player, EnumDemonWillType type, int duration) {
-        if (type == EnumDemonWillType.DEFAULT)
+    public void applyEffectOnKill(Player player, SpiritusType type, int duration) {
+        if (type == SpiritusType.RAW)
             return;
         MobEffectInstance instance = switch (type) {
-            case CORROSIVE -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration * 20);
-            case VENGEFUL -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, duration * 20);
-            case STEADFAST -> new MobEffectInstance(MobEffects.ABSORPTION, duration * 20, 127);
-            case DESTRUCTIVE -> new MobEffectInstance(ModPotions.SPELL_DAMAGE_EFFECT.get(), duration * 20);
+            case RUINA -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration * 20);
+            case VINDICTA -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, duration * 20);
+            case INVICTUS -> new MobEffectInstance(MobEffects.ABSORPTION, duration * 20, 127);
+            case NIHILUM -> new MobEffectInstance(ModPotions.SPELL_DAMAGE_EFFECT, duration * 20);
             default -> throw new IllegalStateException("Unexpected value: " + type);
         };
 
         player.addEffect(instance);
-        if (type == EnumDemonWillType.STEADFAST) {
+        if (type == SpiritusType.INVICTUS) {
             float extra = player.getAbsorptionAmount();
             player.setAbsorptionAmount(Math.min(extra + player.getMaxHealth() * 0.2f, 10));
         }
     }
 
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ModConfigSpec.Builder builder) {
         super.buildConfig(builder);
         addDamageConfig(builder, 3.0);
         addAmpConfig(builder, 2.0);
         addPotionConfig(builder, 20);
         addExtendTimeConfig(builder, 5);
+    }
+
+    @Override
+    public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
+        super.addAugmentDescriptions(map);
+        map.put(AugmentAOE.INSTANCE, "Increases the radius of the heavy attack.");
+        map.put(AugmentExtendTime.INSTANCE, "Increases the duration of Marked and of the bonus granted on a kill.");
+        map.put(AugmentDurationDown.INSTANCE, "Decreases the duration of Marked and of the bonus granted on a kill.");
     }
 
     @Override
@@ -155,8 +163,8 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
 
     @Override
     public String getBookDescription() {
-        return "Marks a target on first hit. Attacking a marked target will do a scaling heavy attack in a radius and Marks all targets. Consumes Will. $(br2)Grants player bonuses on kill when not using Raw will.$(br2)" +
-                "Corrosive - Resistance$(br)Vengeful - Speed$(br)Steadfast - Absorption$(br)Destructive - Spell Power";
+        return "Marks a target on the first hit. Attacking a marked target does a heavy attack that scales with your Spiritus, hits everything in a radius and marks them all. Consumes Spiritus. " +
+                "Killing a target grants a bonus unless you are using Raw Spiritus: Ruina grants Resistance, Vindicta grants Speed, Invictus grants Absorption and Nihilum grants Spell Damage.";
     }
 
     @Override

@@ -1,19 +1,17 @@
 package com.mystchonky.tomeofblood.client.events;
 
-import com.hollingsworth.arsnouveau.api.perk.ArmorPerkHolder;
-import com.hollingsworth.arsnouveau.api.perk.IPerkHolder;
 import com.mystchonky.tomeofblood.TomeOfBlood;
 import com.mystchonky.tomeofblood.common.registry.ItemRegistry;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 
-import static com.hollingsworth.arsnouveau.api.util.PerkUtil.getPerkHolder;
-
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = TomeOfBlood.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = TomeOfBlood.MODID)
 public class ClientEventHandler {
 
     @SubscribeEvent
@@ -26,10 +24,7 @@ public class ClientEventHandler {
 
 
     public static int colorFromArmor(ItemStack stack) {
-        IPerkHolder<ItemStack> holder = getPerkHolder(stack);
-        if (!(holder instanceof ArmorPerkHolder armorPerkHolder))
-            return DyeColor.RED.getTextColor();
-        return DyeColor.byName(armorPerkHolder.getColor(), DyeColor.RED).getTextColor();
+        return FastColor.ARGB32.opaque(stack.getOrDefault(DataComponents.BASE_COLOR, DyeColor.RED).getTextColor());
     }
 
 }

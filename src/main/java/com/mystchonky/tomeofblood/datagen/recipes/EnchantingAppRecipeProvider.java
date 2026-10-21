@@ -1,13 +1,14 @@
 package com.mystchonky.tomeofblood.datagen.recipes;
 
-import com.hollingsworth.arsnouveau.api.enchanting_apparatus.EnchantingApparatusRecipe;
+import com.breakinblocks.neovitae.common.item.NVItems;
+import com.hollingsworth.arsnouveau.common.crafting.recipes.EnchantingApparatusRecipe;
+import com.hollingsworth.arsnouveau.common.datagen.ApparatusRecipeBuilder;
 import com.hollingsworth.arsnouveau.common.datagen.ApparatusRecipeProvider;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import com.mystchonky.tomeofblood.TomeOfBlood;
 import com.mystchonky.tomeofblood.common.registry.ItemRegistry;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
-import wayoftime.bloodmagic.common.item.BloodMagicItems;
 
 import java.nio.file.Path;
 
@@ -19,44 +20,44 @@ public class EnchantingAppRecipeProvider extends ApparatusRecipeProvider {
     @Override
     public void collectJsons(CachedOutput pOutput) {
         recipes.add(builder()
-                .withReagent(BloodMagicItems.LIVING_HELMET)
+                .withReagent(NVItems.SENTIENT_HELMET.get())
                 .withPedestalItem(4, ItemsRegistry.MAGE_FIBER)
                 .withResult(ItemRegistry.LIVING_MAGE_HOOD)
                 .keepNbtOfReagent(true)
                 .build()
         );
         recipes.add(builder()
-                .withReagent(BloodMagicItems.LIVING_PLATE)
+                .withReagent(NVItems.SENTIENT_PLATE.get())
                 .withPedestalItem(4, ItemsRegistry.MAGE_FIBER)
                 .withResult(ItemRegistry.LIVING_MAGE_ROBES)
                 .keepNbtOfReagent(true)
                 .build()
         );
         recipes.add(builder()
-                .withReagent(BloodMagicItems.LIVING_LEGGINGS)
+                .withReagent(NVItems.SENTIENT_LEGGINGS.get())
                 .withPedestalItem(4, ItemsRegistry.MAGE_FIBER)
                 .withResult(ItemRegistry.LIVING_MAGE_LEGGINGS)
                 .keepNbtOfReagent(true)
                 .build()
         );
         recipes.add(builder()
-                .withReagent(BloodMagicItems.LIVING_BOOTS)
+                .withReagent(NVItems.SENTIENT_BOOTS.get())
                 .withPedestalItem(4, ItemsRegistry.MAGE_FIBER)
                 .withResult(ItemRegistry.LIVING_MAGE_BOOTS)
                 .keepNbtOfReagent(true)
                 .build()
         );
-        for (EnchantingApparatusRecipe g : recipes) {
+        for (ApparatusRecipeBuilder.RecipeWrapper<? extends EnchantingApparatusRecipe> g : recipes) {
             if (g != null) {
-                Path path = getRecipePath(output, g.getId().getPath());
-                saveStable(pOutput, g.asRecipe(), path);
+                Path path = getRecipePath(output, g.id().getPath());
+                saveStable(pOutput, g.serialize(), path);
             }
         }
 
     }
 
     protected static Path getRecipePath(Path pathIn, String str) {
-        return pathIn.resolve("data/" + TomeOfBlood.MODID + "/recipes/" + str + ".json");
+        return pathIn.resolve("data/" + TomeOfBlood.MODID + "/recipe/" + str + ".json");
     }
 
     @Override

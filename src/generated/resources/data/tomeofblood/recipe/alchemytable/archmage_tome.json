@@ -1,0 +1,36 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "neovitae"
+    }
+  ],
+  "type": "neovitae:alchemytable",
+  "input": [
+    {
+      "item": "tomeofblood:apprentice_tome_of_blood"
+    },
+    {
+      "item": "minecraft:nether_star"
+    },
+    {
+      "item": "minecraft:emerald"
+    },
+    {
+      "item": "minecraft:ender_pearl"
+    },
+    {
+      "item": "minecraft:totem_of_undying"
+    },
+    {
+      "item": "ars_nouveau:wilden_tribute"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "tomeofblood:archmage_tome_of_blood"
+  },
+  "syphon": 15000,
+  "ticks": 100,
+  "upgradeLevel": 3
+}

@@ -20,7 +20,7 @@ public class AugmentMimic extends AbstractAugment {
     @Override
     public SpellStats.Builder applyModifiers(SpellStats.Builder builder, AbstractSpellPart spellPart, HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellContext spellContext) {
         Spell spell = spellContext.getSpell();
-        AbstractSpellPart part = spell.recipe.get(spellContext.getCurrentIndex() - 1);
+        AbstractSpellPart part = spell.get(spellContext.getCurrentIndex() - 1);
         if (part instanceof AbstractAugment augment) {
             augment.applyModifiers(builder, spellPart);
         }

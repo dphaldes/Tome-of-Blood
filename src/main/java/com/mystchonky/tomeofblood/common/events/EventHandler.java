@@ -1,5 +1,7 @@
 package com.mystchonky.tomeofblood.common.events;
 
+import com.breakinblocks.neovitae.api.NeoVitaeAPI;
+import com.breakinblocks.neovitae.api.sentient.ISentientArmorManager;
 import com.hollingsworth.arsnouveau.api.event.SpellCastEvent;
 import com.hollingsworth.arsnouveau.api.event.SpellCostCalcEvent;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
@@ -9,27 +11,23 @@ import com.mystchonky.tomeofblood.TomeOfBlood;
 import com.mystchonky.tomeofblood.client.ClientInfo;
 import com.mystchonky.tomeofblood.common.registry.LivingUpgradeRegistry;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import wayoftime.bloodmagic.core.living.LivingStats;
-import wayoftime.bloodmagic.core.living.LivingUtil;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 
-@Mod.EventBusSubscriber(modid = TomeOfBlood.MODID)
+@EventBusSubscriber(modid = TomeOfBlood.MODID)
 public class EventHandler {
     @SubscribeEvent
-    public static void clientTickEnd(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            ClientInfo.ticksInGame++;
-        }
+    public static void clientTickEnd(ClientTickEvent.Post event) {
+        ClientInfo.ticksInGame++;
     }
 
     @SubscribeEvent
     public static void spellDiscount(SpellCostCalcEvent event) {
         if (event.context.getUnwrappedCaster() instanceof Player player) {
-            if (LivingUtil.hasFullSet(player)) {
-                LivingStats stats = LivingStats.fromPlayer(player);
-                int level = stats.getLevel(LivingUpgradeRegistry.MANA_UPGRADE.getKey());
+            ISentientArmorManager manager = NeoVitaeAPI.getInstance().getSentientArmorManager();
+            if (manager.hasFullSet(player)) {
+                int level = manager.getUpgradeLevel(player, LivingUpgradeRegistry.MANA_UPGRADE);
                 double discount = level * 0.05;
                 event.currentCost = (int) ((1 - discount) * event.currentCost);
             }
@@ -40,14 +38,15 @@ public class EventHandler {
     @SubscribeEvent
     public static void awardXPForSpellCast(SpellCastEvent event) {
         if (event.context.getUnwrappedCaster() instanceof Player player) {
-            if (LivingUtil.hasFullSet(player)) {
+            ISentientArmorManager manager = NeoVitaeAPI.getInstance().getSentientArmorManager();
+            if (manager.hasFullSet(player)) {
                 Spell spell = event.spell;
                 SpellContext spellContext = event.context;
 
                 int cost = spellContext.getSpell().getCost() - ManaUtil.getPlayerDiscounts(spellContext.getUnwrappedCaster(), spell, spellContext.getCasterTool());
                 cost = Math.max(cost, 0);
                 int xpAward = cost / 100;
-                LivingUtil.applyNewExperience(player, LivingUpgradeRegistry.MANA_UPGRADE, xpAward);
+                manager.grantUpgradeExperience(player, LivingUpgradeRegistry.MANA_UPGRADE, xpAward);
             }
         }
     }

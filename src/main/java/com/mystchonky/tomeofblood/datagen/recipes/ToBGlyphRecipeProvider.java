@@ -1,8 +1,10 @@
 package com.mystchonky.tomeofblood.datagen.recipes;
 
+import com.breakinblocks.neovitae.common.item.NVItems;
 import com.hollingsworth.arsnouveau.common.crafting.recipes.GlyphRecipe;
 import com.hollingsworth.arsnouveau.common.datagen.GlyphRecipeProvider;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
+import com.mojang.serialization.JsonOps;
 import com.mystchonky.tomeofblood.TomeOfBlood;
 import com.mystchonky.tomeofblood.common.glyphs.EffectSentientHarm;
 import com.mystchonky.tomeofblood.common.glyphs.EffectSentientWrath;
@@ -10,7 +12,6 @@ import com.mystchonky.tomeofblood.datagen.RecipeUtil;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
-import wayoftime.bloodmagic.common.item.BloodMagicItems;
 
 import java.nio.file.Path;
 
@@ -25,22 +26,22 @@ public class ToBGlyphRecipeProvider extends GlyphRecipeProvider {
     public void collectJsons(CachedOutput pOutput) {
 
         recipes.add(get(EffectSentientHarm.INSTANCE)
-                .withItem(BloodMagicItems.SENTIENT_SWORD));
+                .withItem(NVItems.SENTIENT_SWORD.get()));
 
         recipes.add(get(EffectSentientWrath.INSTANCE)
-                .withItem(BloodMagicItems.SENTIENT_SCYTHE)
-                .withItem(BloodMagicItems.THROWING_DAGGER)
+                .withItem(NVItems.SENTIENT_SCYTHE.get())
+                .withItem(NVItems.THROWING_DAGGER.get())
                 .withItem(ItemsRegistry.CONJURATION_ESSENCE));
 
         for (GlyphRecipe recipe : recipes) {
             Path path = getScribeGlyphPath(output, recipe.output.getItem());
-            saveStable(pOutput, RecipeUtil.modCompatGlyphRecipe("bloodmagic", recipe.asRecipe()), path);
+            saveStable(pOutput, RecipeUtil.modCompatGlyphRecipe("neovitae", GlyphRecipe.CODEC.encodeStart(JsonOps.INSTANCE, recipe).getOrThrow()), path);
         }
 
     }
 
     protected static Path getScribeGlyphPath(Path pathIn, Item glyph) {
-        return pathIn.resolve("data/" + TomeOfBlood.MODID + "/recipes/" + getRegistryName(glyph).getPath() + ".json");
+        return pathIn.resolve("data/" + TomeOfBlood.MODID + "/recipe/" + getRegistryName(glyph).getPath() + ".json");
     }
 
     @Override

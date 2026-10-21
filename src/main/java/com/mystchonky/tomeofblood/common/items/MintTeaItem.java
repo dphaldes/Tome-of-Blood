@@ -27,7 +27,7 @@ public class MintTeaItem extends Item {
                 player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 5 * 20));
 
             } else {
-                player.addEffect(new MobEffectInstance(MobEffectRegistry.SERENE.get(), 60 * 20));
+                player.addEffect(new MobEffectInstance(MobEffectRegistry.SERENE, 60 * 20));
             }
 
             if (!player.isCreative()) {
@@ -38,7 +38,7 @@ public class MintTeaItem extends Item {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack) {
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
         return 16;
     }
 
