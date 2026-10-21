@@ -3,7 +3,6 @@ package mod.tomeofblood.data.recipes;
 import com.breakinblocks.neovitae.common.recipe.tabulavitae.TabulaVitaeRecipe;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import mod.tomeofblood.TomeOfBlood;
-import mod.tomeofblood.data.RecipeUtil;
 import mod.tomeofblood.init.ItemRegistrar;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.recipes.RecipeOutput;

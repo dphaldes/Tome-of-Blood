@@ -8,7 +8,6 @@ import com.mojang.serialization.JsonOps;
 import mod.tomeofblood.TomeOfBlood;
 import mod.tomeofblood.content.spell.EffectSentientHarm;
 import mod.tomeofblood.content.spell.EffectSentientWrath;
-import mod.tomeofblood.data.RecipeUtil;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;

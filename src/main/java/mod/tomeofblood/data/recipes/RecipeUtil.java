@@ -1,4 +1,4 @@
-package mod.tomeofblood.data;
+package mod.tomeofblood.data.recipes;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
