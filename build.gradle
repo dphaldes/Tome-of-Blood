@@ -15,7 +15,7 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 neoForge {
-    version = project.forge_version
+    version = project.neo_version
 
     parchment {
         mappingsVersion = project.parchment_mappings_version
@@ -132,8 +132,8 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
     var replaceProperties = [
             minecraft_version      : mc_version,
             minecraft_version_range: mc_version_range,
-            forge_version          : forge_version,
-            forge_version_range    : forge_version_range,
+            forge_version          : neo_version,
+            forge_version_range    : neo_version_range,
             loader_version_range   : loader_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,
