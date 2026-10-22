@@ -44,8 +44,8 @@ public class LivingMageArmorItem extends AnimatedMagicArmor implements UpgradeHo
     }
 
     @Override
-    public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
-        return repair.getItem() == NVItems.REAGENT_BINDING.get() || super.isValidRepairItem(toRepair, repair);
+    public boolean isValidRepairItem(ItemStack stack, ItemStack repair) {
+        return repair.getItem() == NVItems.REAGENT_BINDING.get() || super.isValidRepairItem(stack, repair);
     }
 
     @Override
@@ -53,19 +53,15 @@ public class LivingMageArmorItem extends AnimatedMagicArmor implements UpgradeHo
         if (this != ItemRegistrar.LIVING_MAGE_ROBES.get()) {
             return super.damageItem(stack, amount, entity, onBroken);
         }
-        int durRemaining = (stack.getMaxDamage() - 1 - stack.getDamageValue());
-        return Math.max(Math.min(durRemaining, amount), 0);
-    }
-
-    @Override
-    public String getColor(ItemStack object) {
-        return object.getOrDefault(DataComponents.BASE_COLOR, DyeColor.RED).getName();
+        int maxLoss = Math.max(0, stack.getMaxDamage() - 1 - stack.getDamageValue());
+        return Math.clamp(amount, 0, maxLoss);
     }
 
     @Override
     public @Nullable ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
         GenericModel<AnimatedMagicArmor> genericModel = (GenericModel<AnimatedMagicArmor>) model;
-        return TomeOfBlood.prefix("textures/" + genericModel.textPathRoot + "/" + genericModel.name + "_" + this.getColor(stack) + ".png");
+        var color = stack.getOrDefault(DataComponents.BASE_COLOR, DyeColor.RED).getName();
+        return TomeOfBlood.prefix("textures/" + genericModel.textPathRoot + "/" + genericModel.name + "_" + color + ".png");
     }
 
     @Override
