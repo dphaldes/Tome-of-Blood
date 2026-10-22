@@ -40,7 +40,7 @@ public class BloodSpellResolver extends SpellResolver {
             // Validation failed, explain why if applicable
             if (!silent && !entity.getCommandSenderWorld().isClientSide) {
                 // Sending only the first error to avoid spam
-                PortUtil.sendMessageNoSpam(entity, validationErrors.get(0).makeTextComponentExisting());
+                PortUtil.sendMessageNoSpam(entity, validationErrors.getFirst().makeTextComponentExisting());
             }
             return false;
         }

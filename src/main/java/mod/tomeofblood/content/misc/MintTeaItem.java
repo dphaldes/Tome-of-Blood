@@ -39,7 +39,7 @@ public class MintTeaItem extends Item {
 
     @Override
     public int getUseDuration(ItemStack stack, LivingEntity entity) {
-        return 16;
+        return 32; //same as a potion
     }
 
     @Override

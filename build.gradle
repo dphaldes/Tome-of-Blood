@@ -176,3 +176,30 @@ idea {
         downloadJavadoc = true
     }
 }
+
+import java.util.regex.Matcher;
+tasks.register("generatePackageInfos") {
+    doLast {
+        fileTree("src/main/java").forEach { javaFile ->
+            def packageInfoFile = new File(javaFile.parent, "package-info.java")
+            if (!packageInfoFile.exists()) {
+                def pkgName = javaFile.toString().replaceAll(Matcher.quoteReplacement(File.separator), "/")
+                pkgName = pkgName.substring(pkgName.indexOf("mod/tomeofblood/"), pkgName.lastIndexOf("/"))
+                pkgName = pkgName.replace("/", ".")
+
+                def pkgInfoText = """
+                    |@FieldsAreNonnullByDefault
+                    |@MethodsReturnNonnullByDefault
+                    |@ParametersAreNonnullByDefault
+                    |package $pkgName;
+                    |
+                    |import javax.annotation.ParametersAreNonnullByDefault;
+                    |import net.minecraft.FieldsAreNonnullByDefault;
+                    |import net.minecraft.MethodsReturnNonnullByDefault;
+                """.stripMargin().trim()
+
+                packageInfoFile.text = pkgInfoText
+            }
+        }
+    }
+}

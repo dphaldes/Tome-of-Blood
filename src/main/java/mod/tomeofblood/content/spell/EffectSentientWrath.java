@@ -23,7 +23,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.ModConfigSpec;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,7 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (!(rayTraceResult.getEntity() instanceof LivingEntity target && world instanceof ServerLevel level))
             return;
         if (!(shooter instanceof Player player))
@@ -140,7 +139,7 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
     }
 
     @Override
-    protected @NotNull Set<AbstractAugment> getCompatibleAugments() {
+    protected Set<AbstractAugment> getCompatibleAugments() {
         return augmentSetOf(
                 AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE,
                 AugmentExtendTime.INSTANCE, AugmentDurationDown.INSTANCE,
@@ -161,7 +160,7 @@ public class EffectSentientWrath extends AbstractEffect implements IDamageEffect
     }
 
     @Override
-    protected @NotNull Set<SpellSchool> getSchools() {
+    protected Set<SpellSchool> getSchools() {
         return setOf(IntegrationRegistrar.BLOODMAGIC);
     }
 }

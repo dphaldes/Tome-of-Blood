@@ -20,7 +20,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.neoforged.neoforge.common.ModConfigSpec;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Set;
@@ -34,7 +33,7 @@ public class EffectSentientHarm extends AbstractEffect implements IDamageEffect,
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (shooter instanceof Player player && rayTraceResult.getEntity() instanceof LivingEntity target) {
             SpiritusType type = WillHandler.getActiveTypeFromPlayer(spellContext);
             int souls = (int) NeoVitaeAPI.getInstance().getPlayerSpiritusHandler().getTotalSpiritus(type, player);
@@ -96,7 +95,7 @@ public class EffectSentientHarm extends AbstractEffect implements IDamageEffect,
     }
 
     @Override
-    public @NotNull Set<AbstractAugment> getCompatibleAugments() {
+    public Set<AbstractAugment> getCompatibleAugments() {
         return augmentSetOf(AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE, AugmentExtendTime.INSTANCE, AugmentDurationDown.INSTANCE, AugmentFortune.INSTANCE);
     }
 

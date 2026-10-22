@@ -67,6 +67,7 @@ public class LivingMageArmorItem extends AnimatedMagicArmor implements UpgradeHo
     @Override
     public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
         consumer.accept(new GeoRenderProvider() {
+            @Nullable
             private GeoArmorRenderer<?> renderer;
 
             @Override

@@ -25,7 +25,6 @@ public class DocumentationHandler {
                 .withIcon(ItemRegistrar.ARCHMAGE_TOME)
                 .withSortNum(1)
                 .withIntroPage()
-                .withLocalizedText()
                 .withLocalizedText());
 
         Documentation.addPage(new DocEntryBuilder(TomeOfBlood.MODID, category, ItemRegistrar.MINT_TEA)
