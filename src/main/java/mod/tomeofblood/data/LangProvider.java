@@ -21,6 +21,7 @@ public class LangProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        LangRegistrar.init();
         LangRegistrar.entries.forEach(this::add);
 
         add(ItemRegistrar.NOVICE_TOME.get(), "Novice Tome of Blood");

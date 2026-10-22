@@ -27,11 +27,9 @@ public class IntegrationRegistrar {
 
     public static void init() {
         registerGlyphs();
-        registerFamiliars();
     }
 
     public static void postInit() {
-        registerSounds();
         registerPerkProviders();
         registerSpellCasters();
     }
@@ -39,12 +37,6 @@ public class IntegrationRegistrar {
     public static void registerGlyphs() {
         registerSpellPart(EffectSentientHarm.INSTANCE);
         registerSpellPart(EffectSentientWrath.INSTANCE);
-    }
-
-    public static void registerFamiliars() {
-    }
-
-    public static void registerSounds() {
     }
 
     public static void registerSpellPart(AbstractSpellPart spellPart) {

@@ -10,16 +10,16 @@ public class LangRegistrar {
     public static final Map<String, String> entries = new HashMap<>();
 
     public static void init() {
-        key(MobEffectRegistrar.SERENE.getRegisteredName(), "Serene");
-        key(MobEffectRegistrar.VULNERABLE.getRegisteredName(), "Vulnerable");
-        key(MobEffectRegistrar.MARKED.getRegisteredName(), "Marked");
+        key(MobEffectRegistrar.SERENE.get().getDescriptionId(), "Serene");
+        key(MobEffectRegistrar.VULNERABLE.get().getDescriptionId(), "Vulnerable");
+        key(MobEffectRegistrar.MARKED.get().getDescriptionId(), "Marked");
 
         typeKey("itemGroup", "tome_of_blood", "Tome Of Blood");
     }
 
     public static final Entry SCHOOL_BLOODMAGIC = key("ars_nouveau.school." + IntegrationRegistrar.BLOODMAGIC.getId(), "Blood Magic");
-    public static final Entry LOW_LP = typeKey("no_lp", "alert", "Your soul feels weak..");
-    public static final Entry MANA_BONUS_UPGRADE = typeKey("mana_bonus", "sentient_upgrade", "Mana Attunement");
+    public static final Entry LOW_LP = typeKey("alert", "no_lp", "Your soul feels weak..");
+    public static final Entry MANA_BONUS_UPGRADE = typeKey("sentient_upgrade", "mana_bonus", "Mana Attunement");
 
     private static Entry key(String key, String translation) {
         entries.put(key, translation);

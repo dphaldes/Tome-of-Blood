@@ -11,7 +11,6 @@ public class Registrar {
         MobEffectRegistrar.register(modbus);
         ParticleRegistrar.register(modbus);
         IntegrationRegistrar.init();
-        LangRegistrar.init();
 
         modbus.addListener(Registrar::commonSetup);
         modbus.addListener(Registrar::clientSetup);
